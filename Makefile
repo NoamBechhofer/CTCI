@@ -80,14 +80,34 @@ $(BUILD_DIR)/%/problem: %/*.c $(LIB_OBJECTS)
 clean:
 	rm -rf $(BUILD_DIR)
 
-# Run all executables
+# Run all executables or a specific one
+# Usage: make run          - Run all problems
+#        make run 01/01    - Run chapter 01, problem 01
 .PHONY: run
 run: all
-	@echo "Running all problems..."
-	@for exe in $(EXECUTABLES); do \
-		echo "\n=== Running $$exe ==="; \
-		$$exe || exit 1; \
-	done
+	@# Check if we have arguments to determine chapter/problem
+	@if [ -n "$(filter-out run,$(MAKECMDGOALS))" ]; then \
+		PROBLEM_PATH="$(filter-out run,$(MAKECMDGOALS))"; \
+		EXE="$(BUILD_DIR)/$$PROBLEM_PATH/problem"; \
+		if [ -f "$$EXE" ]; then \
+			echo "Running $$PROBLEM_PATH..."; \
+			echo "\n=== Running $$EXE ==="; \
+			$$EXE || exit 1; \
+		else \
+			echo "Error: Problem $$PROBLEM_PATH not found ($$EXE does not exist)"; \
+			exit 1; \
+		fi; \
+	else \
+		echo "Running all problems..."; \
+		for exe in $(EXECUTABLES); do \
+			echo "\n=== Running $$exe ==="; \
+			$$exe || exit 1; \
+		done; \
+	fi
+
+# Prevent make from treating arguments as targets
+%:
+	@:
 
 # Help target
 .PHONY: help
@@ -96,12 +116,9 @@ help:
 	@echo "============="
 	@echo ""
 	@echo "Targets:"
-	@echo "  all      - Build all libraries and problem executables (default)"
-	@echo "  clean    - Remove all build artifacts"
-	@echo "  run      - Build and run all problem executables"
-	@echo "  help     - Show this help message"
+	@echo "  all         - Build all libraries and problem executables (default)"
+	@echo "  clean       - Remove all build artifacts"
+	@echo "  run         - Build and run all problem executables"
+	@echo "  run XX/YY   - Build and run specific problem (chapter XX, problem YY)"
+	@echo "  help        - Show this help message"
 	@echo ""
-	@echo "Directory structure:"
-	@echo "  lib/     - Reusable data structures and algorithms"
-	@echo "  XX/YY/   - Chapter XX, Problem YY"
-	@echo "  build/   - Build artifacts (generated)"
