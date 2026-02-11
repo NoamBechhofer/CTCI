@@ -6,7 +6,7 @@ Cracking the Coding Interview - Solutions in C
 
 ```
 CTCI/
-├── lib/                    # Reusable data structures and algorithms
+├── lib/                    # Reusable code
 ├── XX/YY/                  # Chapter XX, Problem YY
 │   ├── problem.h
 │   ├── problem.c
