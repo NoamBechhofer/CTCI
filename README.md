@@ -37,6 +37,9 @@ make clean
 # Build and run all problems
 make run
 
+# Build and run a specific problem (e.g. chapter 01 problem 01)
+make run 01/01
+
 # Show help
 make help
 ```
