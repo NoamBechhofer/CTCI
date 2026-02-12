@@ -84,14 +84,14 @@ clean:
 .PHONY: format
 format:
 	@echo "Formatting all C and H files..."
-	@find . -path ./$(BUILD_DIR) -prune -o -type f \( -name '*.c' -o -name '*.h' \) -print0 | xargs -0 clang-format -i
+	@find . -path ./$(BUILD_DIR) -prune -o -type f \( -name '*.c' -o -name '*.h' \) -print | xargs clang-format -i
 	@echo "Formatting complete."
 
 # Check if files need formatting (dry-run)
 .PHONY: format-check
 format-check:
 	@echo "Checking if files need formatting..."
-	@find . -path ./$(BUILD_DIR) -prune -o -type f \( -name '*.c' -o -name '*.h' \) -print0 | xargs -0 clang-format --dry-run --Werror
+	@find . -path ./$(BUILD_DIR) -prune -o -type f \( -name '*.c' -o -name '*.h' \) -print | xargs clang-format --dry-run --Werror
 
 # Run all executables or a specific one
 # Usage: make run          - Run all problems
