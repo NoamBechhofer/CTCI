@@ -80,6 +80,19 @@ $(BUILD_DIR)/%/problem: %/*.c $(LIB_OBJECTS)
 clean:
 	rm -rf $(BUILD_DIR)
 
+# Format all C and H files using clang-format
+.PHONY: format
+format:
+	@echo "Formatting all C and H files..."
+	@find . -path ./$(BUILD_DIR) -prune -o -type f \( -name '*.c' -o -name '*.h' \) -print0 | xargs -0 clang-format -i
+	@echo "Formatting complete."
+
+# Check if files need formatting (dry-run)
+.PHONY: format-check
+format-check:
+	@echo "Checking if files need formatting..."
+	@find . -path ./$(BUILD_DIR) -prune -o -type f \( -name '*.c' -o -name '*.h' \) -print0 | xargs -0 clang-format --dry-run --Werror
+
 # Run all executables or a specific one
 # Usage: make run          - Run all problems
 #        make run 01/01    - Run chapter 01, problem 01
@@ -116,9 +129,11 @@ help:
 	@echo "============="
 	@echo ""
 	@echo "Targets:"
-	@echo "  all         - Build all libraries and problem executables (default)"
-	@echo "  clean       - Remove all build artifacts"
-	@echo "  run         - Build and run all problem executables"
-	@echo "  run XX/YY   - Build and run specific problem (chapter XX, problem YY)"
-	@echo "  help        - Show this help message"
+	@echo "  all           - Build all libraries and problem executables (default)"
+	@echo "  clean         - Remove all build artifacts"
+	@echo "  run           - Build and run all problem executables"
+	@echo "  run XX/YY     - Build and run specific problem (chapter XX, problem YY)"
+	@echo "  format        - Format all C and H files with clang-format"
+	@echo "  format-check  - Check if files need formatting (dry-run)"
+	@echo "  help          - Show this help message"
 	@echo ""

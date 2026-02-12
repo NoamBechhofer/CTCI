@@ -40,6 +40,12 @@ make run
 # Build and run a specific problem (e.g. chapter 01 problem 01)
 make run 01/01
 
+# Format all C and H files with clang-format
+make format
+
+# Check if files need formatting (dry-run)
+make format-check
+
 # Show help
 make help
 ```
