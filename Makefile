@@ -39,7 +39,7 @@ CFLAGS = -Wall \
          -Wwrite-strings \
          -std=c17 -O2 -g \
 
-LDFLAGS = 
+LDFLAGS = -lm
 
 # Directories
 LIB_DIR = lib
